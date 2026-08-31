@@ -23,7 +23,7 @@ async function loadNav() {
     if (!list) throw new Error("Nav list #mainNavList not found");
 
     const currentPath = window.location.pathname;
-    const siteBase    = (window.vars?.PATHVAR ?? "/static-wiki/").replace(/\/?$/, "/");
+    const siteBase    = (window.vars?.PATHVAR ?? "/").replace(/\/?$/, "/");
 
     let user = null;
     try { user = JSON.parse(localStorage.getItem("authUser")); } catch {}
@@ -53,7 +53,7 @@ async function loadNav() {
       addCustomLink(list, "My Pages", siteBase + "content/pub/index.html", currentPath);
     }
     if (admin) {
-      addCustomLink(list, "Admin", siteBase + "26wiki26/index.html", currentPath);
+      addCustomLink(list, "Admin", siteBase + "god_s_eyes_only/index.html", currentPath);
     }
     if (user?.SKU === "1" || getCookie("Student") === "2559" || getCookie("Student") === "1055") {
       addCustomLink(list, "DEV PAGE", "/dev/index.html", currentPath);
@@ -89,7 +89,7 @@ function addCustomLink(list, title, path, currentPath) {
       }
 
       window.location.href =
-        (window.vars?.PATHVAR ?? "/static-wiki/") +
+        (window.vars?.PATHVAR ?? "/") +
         "index.html";
 
     });
