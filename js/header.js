@@ -39,7 +39,7 @@ document.addEventListener("DOMContentLoaded", () => {
   if (window.vars.CSSVAR) {
     const mainLink = document.getElementById("mainStylesheet");
     if (mainLink) {
-      mainLink.href = window.vars.CSSVAR + "style.css?v=1.3";
+      mainLink.href = window.vars.CSSVAR + "style.css?v=1.3" || "/A.t.A._Tech_Wiki/css/style.css?v=1.3";
     }
   }
 });
