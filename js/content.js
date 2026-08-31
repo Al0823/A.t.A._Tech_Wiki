@@ -1,12 +1,14 @@
 // content.js — PHP API client
 
-function apiBase() {return window.location.origin + "/A.t.A._Tech_Wiki/";}
+function apiBase() {return window.location.origin + "/";}
 
 async function apiFetch(path, options) {
 
     options = options || {};
 
     var base = apiBase();
+
+    path = path.replace(/^\/+/, "");
 
     var headers = Object.assign(
         {
