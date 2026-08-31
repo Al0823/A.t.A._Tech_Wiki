@@ -1,36 +1,58 @@
-// content.js — API client for the Cloudflare Worker
-// Requires window.vars.APIVAR to point to your deployed worker URL
+// content.js — PHP API client
 
-function apiBase() {
-  var base = (window.vars && window.vars.PHPAPIVAR) ? window.vars.PHPAPIVAR.replace(/\/$/, "") : "";
-  return base;
-}
+function apiBase() {return window.location.origin + "/";}
 
 async function apiFetch(path, options) {
-  options = options || {};
-  var base = apiBase();
 
-if (!base) {
-  throw new Error("APIVAR is not set (vars.js missing or not loaded)");
-}
+    options = options || {};
 
-  var token = localStorage.getItem("authToken");
-  var headers = Object.assign({ "Content-Type": "application/json" }, options.headers || {});
-  if (token) headers["Authorization"] = "Bearer " + token;
+    var base = apiBase();
 
-  var res = await fetch(base + path, Object.assign({}, options, { headers: headers }));
+    var headers = Object.assign(
+        {
+            "Content-Type": "application/json"
+        },
+        options.headers || {}
+    );
 
-  if (!res.ok) {
-    // If the response isn't JSON (e.g. an HTML error page), give a clear message
-    var contentType = res.headers.get("Content-Type") || "";
-    if (contentType.indexOf("application/json") === -1) {
-      throw new Error("Worker returned HTTP " + res.status + " — check your APIVAR URL is correct");
+    var res = await fetch(
+        base + path,
+        Object.assign(
+            {},
+            options,
+            {
+                headers: headers
+            }
+        )
+    );
+
+    if (!res.ok) {
+
+        var contentType =
+            res.headers.get("Content-Type") || "";
+
+        if (
+            contentType.indexOf("application/json") === -1
+        ) {
+            throw new Error(
+                "Server returned HTTP " +
+                res.status
+            );
+        }
+
+        var err =
+            await res.json().catch(function() {
+                return {
+                    error: res.statusText
+                };
+            });
+
+        throw new Error(
+            err.error || res.statusText
+        );
     }
-    var err = await res.json().catch(function() { return { error: res.statusText }; });
-    throw new Error(err.error || res.statusText);
-  }
 
-  return res.json();
+    return res.json();
 }
 
 // Auth 
@@ -70,46 +92,115 @@ function isAdmin()    { return !!(getUser() && getUser().ADMIN === "1"); }
 // Public pages
 
 async function loadPageList(containerId, searchQuery) {
-  searchQuery = searchQuery || "";
-  var container = document.getElementById(containerId);
-  if (!container) return;
-  container.innerHTML = "Loading...";
-  try {
-    var url = searchQuery
-    ? "/pages/index.php?search=" + encodeURIComponent(searchQuery)
-    : "/pages/index.php";
-    var pages = await apiFetch(url);
-    if (pages.length === 0) {
-      container.innerHTML = searchQuery
-        ? "<p>No results for \"<b>" + esc(searchQuery) + "</b>\".</p>"
-        : "<p>No pages found.</p>";
-      return;
+
+    searchQuery = searchQuery || "";
+
+    var container =
+        document.getElementById(containerId);
+
+    if (!container) return;
+
+    container.innerHTML = "Loading...";
+
+    try {
+
+        var url =
+            "utils/pages-list.php";
+
+        if (searchQuery) {
+
+            url +=
+                "?search=" +
+                encodeURIComponent(searchQuery);
+        }
+
+        var pages =
+            await apiFetch(url);
+
+        if (pages.length === 0) {
+
+            container.innerHTML =
+                searchQuery
+                    ? "<p>No results for \"" +
+                      "<b>" +
+                      esc(searchQuery) +
+                      "</b>\".</p>"
+                    : "<p>No pages found.</p>";
+
+            return;
+        }
+
+        var heading =
+            searchQuery
+                ? "<p><b>" +
+                  pages.length +
+                  "</b> result(s) for \"" +
+                  "<b>" +
+                  esc(searchQuery) +
+                  "</b>\"</p>"
+                : "";
+
+        container.innerHTML =
+            heading +
+            pages.map(function(p) {
+
+                return (
+"<a href=\"" + window.vars.PATHVAR +
+/* changed sku to page here by self */ 
+"content/pagedetail.html?page=" + encodeURIComponent(p.SKU) +"\">" +
+                    esc(p.TITLE) +
+                    "</a><br><br>"
+                );
+
+            }).join("");
+
+    } catch (err) {
+
+        container.innerHTML =
+            "<p class=\"error\">" +
+            esc(err.message) +
+            "</p>";
     }
-    var heading = searchQuery
-      ? "<p><b>" + pages.length + "</b> result(s) for \"<b>" + esc(searchQuery) + "</b>\"</p>" : "";
-    container.innerHTML = heading + pages.map(function(p) {
-      return "<a href=\"" + window.vars.PATHVAR + "content/pagedetail.html?sku=" + p.SKU + "\">" + esc(p.TITLE) + "</a><br><br>";
-    }).join("");
-  } catch(err) {
-    container.innerHTML = "<p class=\"error\">" + esc(err.message) + "</p>";
-  }
 }
 
 async function loadPageDetail(sku) {
-  var articleEl  = document.getElementById("pageContent");
-  var commentsEl = document.getElementById("commentsList");
-  if (!articleEl) return;
-  try {
-    var page = await apiFetch(
-    "/pages/view.php?sku=" +
-    encodeURIComponent(sku)
-);
-    document.title = page.TITLE;
-    articleEl.innerHTML = "<h2>" + esc(page.TITLE) + "</h2>" + page.BODYCOPY;
-    if (commentsEl) await loadComments(sku, commentsEl);
-  } catch(err) {
-    articleEl.innerHTML = "<p class=\"error\">" + esc(err.message) + "</p>";
-  }
+
+    var articleEl =
+        document.getElementById("pageContent");
+
+    var commentsEl =
+        document.getElementById("commentsList");
+
+    if (!articleEl) return;
+
+    try {
+
+        var page =
+            await apiFetch(
+                "utils/page.php?sku=" +
+                encodeURIComponent(sku)
+            );
+
+        document.title =
+            page.TITLE;
+
+        articleEl.innerHTML =
+            "<h2>" +
+            esc(page.TITLE) +
+            "</h2>" +
+            page.BODYCOPY;
+
+        /*
+         * Comments will be converted separately.
+         */
+
+    } catch (err) {
+
+        articleEl.innerHTML =
+            "<p class=\"error\">" +
+            esc(err.message) +
+            "</p>";
+    }
 }
 
 // Comments 
