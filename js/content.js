@@ -145,9 +145,11 @@ async function loadPageList(containerId, searchQuery) {
             pages.map(function(p) {
 
                 return (
-"<a href=\"" + window.vars.PATHVAR +
-/* changed sku to page here by self */ 
-"content/pagedetail.html?sku=" + encodeURIComponent(p.SKU) +"\">" +
+                    "<a href=\"" +
+                    window.vars.PATHVAR +
+                    "content/pagedetail.html?sku=" +
+                    encodeURIComponent(p.SKU) +
+                    "\">" +
                     esc(p.TITLE) +
                     "</a><br><br>"
                 );
