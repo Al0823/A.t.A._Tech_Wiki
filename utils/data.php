@@ -3,7 +3,7 @@
 /*
  * A.t.A. Tech Wiki
  * Data utilities
- * Reads JSON data from the data folder.
+ * Functions for reading the wiki's data files.
  */
 
 function getDataPath(string $filename): string
