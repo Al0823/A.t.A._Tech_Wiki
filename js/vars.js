@@ -1,16 +1,16 @@
 window.vars = (function() {
 
-  var PATHVAR = "/static-wiki/";
+  var PATHVAR = "/";
 
   return {
     PATHVAR: PATHVAR,
 
-    CSSVAR: "/css/",
+    CSSVAR: PATHVAR + "css/",
     INCVAR: PATHVAR + "includes/",
     DBVAR: PATHVAR + "data/",
     JSVAR: PATHVAR + "js/",
     UTILVAR: PATHVAR + "utils/",
-    wikiadminVAR: PATHVAR + "26admin16/",
+    wikiadminVAR: PATHVAR + "god_s_eyes_only/",
 
 				APIVAR: "https://wiki-worker.akonyswoodard.workers.dev",
     PHPAPIVAR: "https://aloysiusprojects.kesug.com/wiki-backend/",
