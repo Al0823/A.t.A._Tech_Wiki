@@ -23,7 +23,7 @@ async function loadNav() {
     if (!list) throw new Error("Nav list #mainNavList not found");
 
     const currentPath = window.location.pathname;
-    const siteBase    = (window.vars?.PATHVAR ?? "/").replace(/\/?$/, "/");
+    const siteBase    = (window.vars?.PATHVAR ?? "/A.t.A._Tech_Wiki/");
 
     let user = null;
     try { user = JSON.parse(localStorage.getItem("authUser")); } catch {}
