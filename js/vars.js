@@ -1,22 +1,16 @@
 window.vars = (function() {
 
-  var PATHVAR = "/";
 
-  return {
-    PATHVAR: PATHVAR,
 
-    CSSVAR: PATHVAR + "css/",
-    INCVAR: PATHVAR + "includes/",
-    DBVAR: PATHVAR + "data/",
-    JSVAR: PATHVAR + "js/",
-    UTILVAR: PATHVAR + "utils/",
-    wikiadminVAR: PATHVAR + "god_s_eyes_only/",
+    CSSVAR: "/css/";
+    INCVAR: "/includes/";
+    DBVAR: "/data/";
+    JSVAR: "/js/";
+    UTILVAR: "/utils/";
+    wikiadminVAR: "/god_s_eyes_only/";
 
-				APIVAR: "https://wiki-worker.akonyswoodard.workers.dev",
-    PHPAPIVAR: "https://aloysiusprojects.kesug.com/wiki-backend/",
+    DEBUGVAR: true;
+    WEBSITETITLE: "A.t.A. Tech Wiki";
+  
 
-    DEBUGVAR: true,
-    WEBSITETITLE: "A.t.A. Tech Wiki"
-  };
-
-})();
+});
