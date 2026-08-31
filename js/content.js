@@ -1,6 +1,6 @@
 // content.js — PHP API client
 
-function apiBase() {return window.location.origin + "/";}
+function apiBase() {return window.location.origin + "/A.t.A._Tech_Wiki/";}
 
 async function apiFetch(path, options) {
 
