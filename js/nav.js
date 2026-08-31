@@ -89,7 +89,7 @@ function addCustomLink(list, title, path, currentPath) {
       }
 
       window.location.href =
-        (window.vars?.PATHVAR ?? "/") +
+        (window.vars?.PATHVAR ?? "/A.t.A._Tech_Wiki/") +
         "index.html";
 
     });
