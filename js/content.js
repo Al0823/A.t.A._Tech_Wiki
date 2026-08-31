@@ -147,7 +147,7 @@ async function loadPageList(containerId, searchQuery) {
                 return (
 "<a href=\"" + window.vars.PATHVAR +
 /* changed sku to page here by self */ 
-"content/pagedetail.html?page=" + encodeURIComponent(p.SKU) +"\">" +
+"content/pagedetail.html?sku=" + encodeURIComponent(p.SKU) +"\">" +
                     esc(p.TITLE) +
                     "</a><br><br>"
                 );
