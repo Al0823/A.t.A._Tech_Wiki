@@ -213,7 +213,7 @@ async function loadComments(pageSku, container) {
   container.innerHTML = "Loading comments...";
   try {
     var comments = await apiFetch(
-      "/comments/index.php?pageSku=" +
+      "utils/comments-list.php?pageSku=" +
       encodeURIComponent(pageSku)
     );
 
@@ -235,7 +235,7 @@ async function loadComments(pageSku, container) {
 
 async function submitComment(pageSku, comment) {
   if (!isLoggedIn()) throw new Error("You must be logged in to comment");
-  return apiFetch("/comments/add.php", { method: "POST", body: JSON.stringify({ pageSku: pageSku, comment: comment }) });
+  return apiFetch("utils/comments.php", { method: "POST", body: JSON.stringify({ pageSku: pageSku, comment: comment }) });
 }
 
 // Pub (own-content) pages 
