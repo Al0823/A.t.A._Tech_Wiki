@@ -235,7 +235,7 @@ async function loadComments(pageSku, container) {
 
 async function submitComment(pageSku, comment) {
   if (!isLoggedIn()) throw new Error("You must be logged in to comment");
-  return apiFetch("/comments/add.php", { method: "POST", body: JSON.stringify({ pageSku: pageSku, comment: comment }) });
+  return apiFetch("utils/comments-add.php", { method: "POST", body: JSON.stringify({ pageSku: pageSku, comment: comment }) });
 }
 
 // Pub (own-content) pages 
