@@ -1,6 +1,6 @@
 window.vars = (function() {
 
-  var PATHVAR = "https://al0823.github.io/A.t.A._Tech_Wiki/";
+  var PATHVAR = "/";
 
   return {
     PATHVAR: PATHVAR,
