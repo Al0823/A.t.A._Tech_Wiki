@@ -7,7 +7,7 @@
   <script type="text/javascript" src="/js/vars.js"></script>
   <script type="text/javascript" src="/js/theme.js"></script>
   <script type="text/javascript" src="/js/nav.js"></script>
-<script type="module" src="/js/content.js"></script>
+<script type="text/javascript" src="/js/content.js"></script>
   <script type="text/javascript" src="/js/include.js"></script>
 </head>
 <body>
@@ -34,6 +34,7 @@
 <div id="debugInclude"></div>
 
 <script>
+  /*
   const sku = getSkuFromUrl();
 
   document.addEventListener("includesLoaded", async () => {
@@ -64,6 +65,23 @@
       errEl.textContent = err.message;
     }
   }
+  */
+
+  const sku = getSkuFromUrl();
+
+  async function loadContentPage() {
+
+    if (!sku) {
+      document.getElementById("pageContent").innerHTML =
+        "<p>No page specified.</p>";
+      return;
+    }
+
+    await loadPageDetail(sku);
+  }
+
+  loadContentPage();
+
 </script>
 </body>
 </html>
